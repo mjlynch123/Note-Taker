@@ -26,8 +26,5 @@ Note-Taker was created by [Your Name Here]. It uses the following open-source li
 - Path
 - UUID
 
-## License
-Note-Taker is released under the MIT license.
-
 # Deployed Site
 [Live URL]([https://mjlynch123.github.io/Daily-Schedule/](https://notes-app2023.herokuapp.com/))
