@@ -31,36 +31,43 @@ app.get("/api/notes", (req, res) => {
   res.json(data);
 })
 
+// * Posting the notes that we have added
 app.post("/api/notes", (req, res) => {
-    // Read data from JSON file
+    // * We are reading the data from the file and assigning it to data, if data is empty we will assign it to an empty array
   const data = JSON.parse(fs.readFileSync("./db/db.json", "utf8")) || [];
 
-  // Add new note to data
+  // * Getting items from request body
   const newNote = req.body;
+
+  // * Making a new id for the note that will be added to the JSON file
   newNote.id = uuid();
   data.push(newNote);
 
-  // Write updated data to JSON file
+  // * We are writing the item to the file and formatting it so that it looks nice
   fs.writeFileSync("./db/db.json", JSON.stringify(data, null, 4));
 
-  // Send success response
+  // * Sending a success message
   res.json({ success: true });
 
 })
 
+// * This is the code for deleting an item
 app.delete("/api/notes/:id", (req, res) => {
     const data = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
   const noteId = req.params.id;
 
-  // Find the note with the matching ID
+  // * Finding the note with a matching ID
   const noteIndex = data.findIndex(note => note.id === noteId);
 
-  // If the note is found, remove it from the array
+  // * If that note is in the array then we will remove it from the array
   if (noteIndex !== -1) {
     data.splice(noteIndex, 1);
+    // * Rewriting data to the file minus the note with the matching ID
     fs.writeFileSync('./db/db.json', JSON.stringify(data, null, 2));
+    // * Printing success message
     res.json({ success: true });
   } else {
+    // * Sending a failure message
     res.status(404).json({ error: 'Note not found' });
   }
 });
